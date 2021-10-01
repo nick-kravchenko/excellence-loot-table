@@ -2,6 +2,7 @@
     <thead id="itemsTableThead"></thead>
     <tbody id="itemsTableTbody"></tbody>
 </table>
+<div id="title"></div>
 <script type="text/csv" id="itemsData">"Груул","Трофей из драконьего хребта","28830","[""|cffa335ee|Hitem:28830:::::::::::::|h[Трофей из драконьего хребта]|h|r""] = ""150"",","Аксессуар","Аксессуар","1","","","150","","1","","","1","","","1","","","1","1","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
 "Ал'ар","Арканитовый паровой пистолет","29949","[""|cffa335ee|Hitem:29949:::::::::::::|h[Арканитовый паровой пистолет]|h|r""] = ""20"",","Дальний бой","Огнестрельное","1","","","20","","1","","1","","","","1","","","","2","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
 "Ал'ар","Кираса Огненного Креста","29921","[""|cffa335ee|Hitem:29921:::::::::::::|h[Кираса Огненного Креста]|h|r""] = """",","Грудь","Кольчужные","","","1","","","","","","","","","","","","","","","","","","","","","2","1","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""
@@ -202,13 +203,30 @@
     
     const cols = ['Босс', 'Шмотка', 'Цена', 'Воин прот', 'Воин армс', 'Воин фури', 'Друид медведь', 'Друид кот', 'Рога мечи', 'Пал прот', 'Пал ретри', 'Шаман энх', 'Хант', 'Маг', 'Варлок', 'Шаман элем', 'Друид сова', 'Прист ШП', 'Друид хил', 'Прист хил', 'Паладин хил', 'Шаман хил',]
     document.getElementById('itemsTableThead').innerHTML = `<tr><th>${cols.join('</th><th>')}</th></tr>`;
-    const itemRowHtml = (item) => `<tr>${cols.map(c => `<td title="${c}">
+    const itemRowHtml = (item) => `<tr>${cols.map(c => `<td data-title="${c}">
         ${c === 'Шмотка' ? `<a href="https://ru.tbc.wowhead.com/item=${item.ID}" class="q3">${item[c]}</a>` : item[c] || ''}
     </td>`).join('')}</tr>`;
-    console.log(arrayOfObj[0]);
     document.getElementById('itemsTableTbody').innerHTML = arrayOfObj.map(itemRowHtml).join('');
+    document.querySelectorAll('[data-title]').forEach(el => {
+        el.addEventListener('mousemove', (event) => {
+            const {target} = event;
+            document.getElementById('title').innerHTML = target.getAttribute('data-title');
+        });
+    });
+    window.addEventListener('mousemove', ({x, y}) => {
+        document.getElementById('title').style.left = x;
+        document.getElementById('title').style.top = y;
+    });
 </script>
 <style>
+    #title {
+        padding: .25rem .5rem;
+        background: #0007;
+        color: #fff;
+        border: 1px solid;
+        position: fixed;
+        transform: translate(-50%, -150%);
+    }
     * {
         box-sizing: border-box;
     }
