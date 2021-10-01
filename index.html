@@ -212,12 +212,19 @@
     * {
         box-sizing: border-box;
     }
+    thead {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        border-bottom: 1px solid #0005;
+    }
     tr:hover {
         background-color: #0005;
     }
-    td {
+    td, th {
         text-align: center;
         border: 1px solid #0005;
+        padding: .25rem 0.5rem;
     }
 </style>
 
